@@ -4,4 +4,4 @@ var lint = function(json) {
 
 // global.lint = lint;
 
-module.exports = lint;
+// module.exports = lint;
