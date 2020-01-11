@@ -2,4 +2,6 @@ var lint = function(json) {
     return [];
 }
 
-global.lint = lint;
+// global.lint = lint;
+
+module.exports = lint;
