@@ -56,12 +56,12 @@ export function validateWarningButtonSize(ast) {
                     error: errorMessage,
                     location: {
                         start: {
-                            column: warningBlock.loc.start.column,
-                            line: warningBlock.loc.start.line
+                            column: buttonBlock.loc.start.column,
+                            line: buttonBlock.loc.start.line
                         },
                         end: {
-                            column: warningBlock.loc.end.column,
-                            line: warningBlock.loc.end.line
+                            column: buttonBlock.loc.end.column,
+                            line: buttonBlock.loc.end.line
                         }
                     }
                 });
