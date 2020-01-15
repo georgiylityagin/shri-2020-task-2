@@ -1,58 +1,58 @@
-import { getNodeByPropertyValue, getPropertyValue, getBlockName } from "../../ast-walker/ast-walker";
+import { getNodesWithProperty, getPropertyValue, getBlockName } from '../../ast-handler/ast-handler';
 
-export function validateMarketingProportions(ast) {
-    const errorCode = "GRID.TOO_MUCH_MARKETING_BLOCKS";
-    const errorMessage = "Маркетинговые блоки должны занимать не больше половины от всех колонок блока grid";
-    const foundErrors = [];
+export function validateMarketingProportions (ast) {
+  const errorCode = 'GRID.TOO_MUCH_MARKETING_BLOCKS';
+  const errorMessage = 'Маркетинговые блоки должны занимать не больше половины от всех колонок блока grid';
+  const foundErrors = [];
 
-    let marketingBlockNames = ["commercial", "offer"];
-    let gridBlocks = getNodeByPropertyValue(ast, "block", "grid");
+  const marketingBlockNames = ['commercial', 'offer'];
+  const gridBlocks = getNodesWithProperty(ast, 'block', 'grid');
 
-    if (!gridBlocks) {
-        return [];
+  if (!gridBlocks) {
+    return [];
+  }
+
+  for (const gridBlock of gridBlocks) {
+    const mods = getPropertyValue(gridBlock, 'mods');
+    const gridColumns = +getPropertyValue(mods, 'm-columns');
+    const gridFractions = getNodesWithProperty(gridBlock, 'elem', 'fraction');
+
+    if (!gridColumns || !gridFractions) {
+      continue;
     }
 
-    for (let gridBlock of gridBlocks) {
-        let mods = getPropertyValue(gridBlock, "mods");
-        let gridColumns = +getPropertyValue(mods, "m-columns");
-        let gridFractions = getNodeByPropertyValue(gridBlock, "elem", "fraction");
+    let marketingColumns = 0;
+    const maxMarketingColumns = gridColumns / 2;
 
-        if (!gridColumns || !gridFractions) {
-            continue;
-        }
+    for (const gridFraction of gridFractions) {
+      const elemMods = getPropertyValue(gridFraction, 'elemMods');
+      const elemFractionColumns = +getPropertyValue(elemMods, 'm-col');
 
-        let marketingColumns = 0;
-        let maxMarketingColumns = gridColumns / 2;
+      const content = getPropertyValue(gridFraction, 'content');
+      const blockName = getBlockName(content);
 
-        for (let gridFraction of gridFractions) {
-            let elemMods = getPropertyValue(gridFraction, "elemMods");
-            let elemFractionColumns = +getPropertyValue(elemMods, "m-col");
-            
-            let content = getPropertyValue(gridFraction, "content");
-            let blockName = getBlockName(content);
-            
-            if (marketingBlockNames.includes(blockName)) {
-                marketingColumns += elemFractionColumns;
-            }
-        }
-
-        if (marketingColumns > maxMarketingColumns) {
-            foundErrors.push({
-                code: errorCode,
-                error: errorMessage,
-                location: {
-                    start: {
-                        column: gridBlock.loc.start.column,
-                        line: gridBlock.loc.start.line
-                    },
-                    end: {
-                        column: gridBlock.loc.end.column,
-                        line: gridBlock.loc.end.line
-                    }
-                }
-            });
-        }
+      if (marketingBlockNames.includes(blockName)) {
+        marketingColumns += elemFractionColumns;
+      }
     }
 
-    return foundErrors;
+    if (marketingColumns > maxMarketingColumns) {
+      foundErrors.push({
+        code: errorCode,
+        error: errorMessage,
+        location: {
+          start: {
+            column: gridBlock.loc.start.column,
+            line: gridBlock.loc.start.line
+          },
+          end: {
+            column: gridBlock.loc.end.column,
+            line: gridBlock.loc.end.line
+          }
+        }
+      });
+    }
+  }
+
+  return foundErrors;
 }

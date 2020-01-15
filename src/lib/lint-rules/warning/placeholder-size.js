@@ -1,46 +1,46 @@
-import { getNodeByPropertyValue, getPropertyValue } from "../../ast-walker/ast-walker";
+import { getNodesWithProperty, getPropertyValue, excludeNestedWarning } from '../../ast-handler/ast-handler';
 
-export function validateWarningPlaceholderSize(ast) {
-    const errorCode = "WARNING.INVALID_PLACEHOLDER_SIZE";
-    const errorMessage = "Допустимые размеры для блока placeholder в блоке warning (значение модификатора size): s, m, l";
-    const foundErrors = [];
+export function validateWarningPlaceholderSize (ast) {
+  const errorCode = 'WARNING.INVALID_PLACEHOLDER_SIZE';
+  const errorMessage = 'Допустимые размеры для блока placeholder в блоке warning (значение модификатора size): s, m, l';
+  const foundErrors = [];
 
-    let warningBlocks = getNodeByPropertyValue(ast, "block", "warning");
+  const warningBlocks = getNodesWithProperty(ast, 'block', 'warning');
 
-    if (!warningBlocks) {
-        return [];
+  if (!warningBlocks) {
+    return [];
+  }
+
+  for (const warningBlock of warningBlocks) {
+    let placeholderBlocks = getNodesWithProperty(warningBlock, 'block', 'placeholder');
+    placeholderBlocks = excludeNestedWarning(placeholderBlocks, warningBlock);
+
+    if (!placeholderBlocks || placeholderBlocks.length === 0) {
+      continue;
     }
 
-    for (let warningBlock of warningBlocks) {
-        let placeholderBlocks = getNodeByPropertyValue(warningBlock, "block", "placeholder");
+    for (const placeholderBlock of placeholderBlocks) {
+      const mods = getPropertyValue(placeholderBlock, 'mods');
+      const placeholderSize = getPropertyValue(mods, 'size');
 
-        if (!placeholderBlocks) {
-            continue;
-        }
-
-        for (let placeholderBlock of placeholderBlocks) {
-            let mods = getPropertyValue(placeholderBlock, "mods");
-            let placeholderSize = getPropertyValue(mods, "size");
-
-    
-            if (!["s", "m", "l"].includes(placeholderSize)) {
-                foundErrors.push({
-                    code: errorCode,
-                    error: errorMessage,
-                    location: {
-                        start: {
-                            column: placeholderBlock.loc.start.column,
-                            line: placeholderBlock.loc.start.line
-                        },
-                        end: {
-                            column: placeholderBlock.loc.end.column,
-                            line: placeholderBlock.loc.end.line
-                        }
-                    }
-                });
-            }    
-        }
+      if (!['s', 'm', 'l'].includes(placeholderSize)) {
+        foundErrors.push({
+          code: errorCode,
+          error: errorMessage,
+          location: {
+            start: {
+              column: placeholderBlock.loc.start.column,
+              line: placeholderBlock.loc.start.line
+            },
+            end: {
+              column: placeholderBlock.loc.end.column,
+              line: placeholderBlock.loc.end.line
+            }
+          }
+        });
+      }
     }
+  }
 
-    return foundErrors;
+  return foundErrors;
 }

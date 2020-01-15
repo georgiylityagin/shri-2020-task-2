@@ -1,53 +1,52 @@
-import { getNodeByPropertyValue } from "../../ast-walker/ast-walker";
+import { getNodesWithProperty } from '../../ast-handler/ast-handler';
 
-export function validateWarningButtonPosition(ast) {
-    const errorCode = "WARNING.INVALID_BUTTON_POSITION";
-    const errorMessage = "Блок button в блоке warning не может находиться перед блоком placeholder на том же или более глубоком уровне вложенности.";
-    const foundErrors = [];
+export function validateWarningButtonPosition (ast) {
+  const errorCode = 'WARNING.INVALID_BUTTON_POSITION';
+  const errorMessage = 'Блок button в блоке warning не может находиться перед блоком placeholder на том же или более глубоком уровне вложенности';
+  const foundErrors = [];
 
-    let warningBlocks = getNodeByPropertyValue(ast, "block", "warning");
+  const warningBlocks = getNodesWithProperty(ast, 'block', 'warning');
 
-    if (!warningBlocks) {
-        return [];
+  if (!warningBlocks) {
+    return [];
+  }
+
+  for (const warningBlock of warningBlocks) {
+    const placeholderBlocks = getNodesWithProperty(warningBlock, 'block', 'placeholder');
+    const buttonBlocks = getNodesWithProperty(warningBlock, 'block', 'button');
+
+    if (!placeholderBlocks || !buttonBlocks) {
+      continue;
     }
 
-    for (let warningBlock of warningBlocks) {
-        let placeholderBlocks = getNodeByPropertyValue(warningBlock, "block", "placeholder");
-        let buttonBlocks = getNodeByPropertyValue(warningBlock, "block", "button");
+    const lowerPlaceholder = placeholderBlocks[placeholderBlocks.length - 1];
 
-        if (!placeholderBlocks || !buttonBlocks) {
-            continue;
-        }
+    for (const buttonBlock of buttonBlocks) {
+      const buttonTopBound = buttonBlock.loc.start.line;
+      const buttonLeftBound = buttonBlock.loc.start.column;
 
-        let lowerPlaceholder = placeholderBlocks[placeholderBlocks.length - 1];
+      const placeholderBottomBound = lowerPlaceholder.loc.end.line;
+      const placeholderRightBound = lowerPlaceholder.loc.end.column;
 
-        for (let buttonBlock of buttonBlocks) {
-            let buttonTopBound = buttonBlock.loc.start.line;
-            let buttonLeftBound = buttonBlock.loc.start.column;
-    
-            let placeholderBottomBound = lowerPlaceholder.loc.end.line;
-            let placeholderRightBound = lowerPlaceholder.loc.end.column;
-    
-            // Проверка
-            if (placeholderBottomBound > buttonTopBound || 
+      if (placeholderBottomBound > buttonTopBound ||
             (placeholderBottomBound === buttonTopBound && placeholderRightBound > buttonLeftBound)) {
-                foundErrors.push({
-                    code: errorCode,
-                    error: errorMessage,
-                    location: {
-                        start: {
-                            column: buttonBlock.loc.start.column,
-                            line: buttonBlock.loc.start.line
-                        },
-                        end: {
-                            column: buttonBlock.loc.end.column,
-                            line: buttonBlock.loc.end.line
-                        }
-                    }
-                });
+        foundErrors.push({
+          code: errorCode,
+          error: errorMessage,
+          location: {
+            start: {
+              column: buttonBlock.loc.start.column,
+              line: buttonBlock.loc.start.line
+            },
+            end: {
+              column: buttonBlock.loc.end.column,
+              line: buttonBlock.loc.end.line
             }
-        }
+          }
+        });
+      }
     }
+  }
 
-    return foundErrors;
+  return foundErrors;
 }
