@@ -1,7 +1,7 @@
-let singleH1Inputs = [
-    {
-        description: `Тест 1: Единственный заголовок первого уровня`,
-        json: `[
+const singleH1Inputs = [
+  {
+    description: 'Тест 1: Единственный заголовок первого уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h1" }
@@ -15,12 +15,12 @@ let singleH1Inputs = [
                 "mods": { "type": "h3" }
             }
         ]`,
-        answer: "[]"
-    },
+    answer: '[]'
+  },
 
-    {
-        description: `Тест 2: Два заголовока первого уровня`,
-        json: `[
+  {
+    description: 'Тест 2: Два заголовока первого уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h1" }
@@ -30,14 +30,14 @@ let singleH1Inputs = [
                 "mods": { "type": "h1" }
             }
         ]`,
-        answer: [
-            "TEXT.SEVERAL_H1"
-        ]
-    },
+    answer: [
+      'TEXT.SEVERAL_H1'
+    ]
+  },
 
-    {
-        description: `Тест 3: Три заголовока первого уровня`,
-        json: `[
+  {
+    description: 'Тест 3: Три заголовока первого уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h1" }
@@ -51,15 +51,15 @@ let singleH1Inputs = [
                 "mods": { "type": "h1" }
             }
         ]`,
-        answer: [
-            "TEXT.SEVERAL_H1",
-            "TEXT.SEVERAL_H1"
-        ]
-    },
+    answer: [
+      'TEXT.SEVERAL_H1',
+      'TEXT.SEVERAL_H1'
+    ]
+  },
 
-    {
-        description: `Тест 4: Три заголовока первого уровня на разных уровнях вложенности`,
-        json: `{
+  {
+    description: 'Тест 4: Три заголовока первого уровня на разных уровнях вложенности',
+    json: `{
                 "block": "product",
                 "content": [
                     { "block": "text", "mods": { "type": "h1" } },
@@ -75,17 +75,17 @@ let singleH1Inputs = [
                     }
                 ]
             }`,
-        answer: [
-            "TEXT.SEVERAL_H1",
-            "TEXT.SEVERAL_H1"
-        ]
-    },
+    answer: [
+      'TEXT.SEVERAL_H1',
+      'TEXT.SEVERAL_H1'
+    ]
+  }
 ];
 
-let H2PositionInputs = [
-    {
-        description: `Тест 1: Заголовок второго уровня следует за заголовком первого уровня`,
-        json: `[
+const H2PositionInputs = [
+  {
+    description: 'Тест 1: Заголовок второго уровня следует за заголовком первого уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h1" }
@@ -95,12 +95,12 @@ let H2PositionInputs = [
                 "mods": { "type": "h2" }
             }
         ]`,
-        answer: "[]"
-    },
+    answer: '[]'
+  },
 
-    {
-        description: `Тест 2: Заголовок второго уровня находится перед заголовком первого уровня`,
-        json: `[
+  {
+    description: 'Тест 2: Заголовок второго уровня находится перед заголовком первого уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h2" }
@@ -110,14 +110,14 @@ let H2PositionInputs = [
                 "mods": { "type": "h1" }
             }
         ]`,
-        answer: [
-            "TEXT.INVALID_H2_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H2_POSITION'
+    ]
+  },
 
-    {
-        description: `Тест 3: Два заголовка второго уровня находятся перед заголовком первого уровня`,
-        json: `[
+  {
+    description: 'Тест 3: Два заголовка второго уровня находятся перед заголовком первого уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h2" }
@@ -131,25 +131,25 @@ let H2PositionInputs = [
                 "mods": { "type": "h1" }
             }
         ]`,
-        answer: [
-            "TEXT.INVALID_H2_POSITION",
-            "TEXT.INVALID_H2_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H2_POSITION',
+      'TEXT.INVALID_H2_POSITION'
+    ]
+  },
 
-    {
-        description: `Тест 4: Заголовок второго уровня находится перед заголовком первого уровня на той же строке`,
-        json: `[
+  {
+    description: 'Тест 4: Заголовок второго уровня находится перед заголовком первого уровня на той же строке',
+    json: `[
             { "block": "text", "mods": { "type": "h2" } }, { "block": "text", "mods": { "type": "h1" } }
         ]`,
-        answer: [
-            "TEXT.INVALID_H2_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H2_POSITION'
+    ]
+  },
 
-    {
-        description: `Тест 5: Два заголовка второго уровня перед заголовком первого уровня на разных уровнях вложенности`,
-        json: `{
+  {
+    description: 'Тест 5: Два заголовка второго уровня перед заголовком первого уровня на разных уровнях вложенности',
+    json: `{
                 "block": "product",
                 "content": [
                     { "block": "text", "mods": { "type": "h2" } },
@@ -165,17 +165,17 @@ let H2PositionInputs = [
                     }
                 ]
             }`,
-        answer: [
-            "TEXT.INVALID_H2_POSITION",
-            "TEXT.INVALID_H2_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H2_POSITION',
+      'TEXT.INVALID_H2_POSITION'
+    ]
+  }
 ];
 
-let H3PositionInputs = [
-    {
-        description: `Тест 1: Заголовок третьего уровня следует за заголовком второго уровня`,
-        json: `[
+const H3PositionInputs = [
+  {
+    description: 'Тест 1: Заголовок третьего уровня следует за заголовком второго уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h2" }
@@ -185,12 +185,12 @@ let H3PositionInputs = [
                 "mods": { "type": "h3" }
             }
         ]`,
-        answer: "[]"
-    },
+    answer: '[]'
+  },
 
-    {
-        description: `Тест 2: Заголовок третьего уровня находится перед заголовком второго уровня`,
-        json: `[
+  {
+    description: 'Тест 2: Заголовок третьего уровня находится перед заголовком второго уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h3" }
@@ -200,14 +200,14 @@ let H3PositionInputs = [
                 "mods": { "type": "h2" }
             }
         ]`,
-        answer: [
-            "TEXT.INVALID_H3_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H3_POSITION'
+    ]
+  },
 
-    {
-        description: `Тест 3: Два заголовка третьего уровня находятся перед заголовком второго уровня`,
-        json: `[
+  {
+    description: 'Тест 3: Два заголовка третьего уровня находятся перед заголовком второго уровня',
+    json: `[
             {
                 "block": "text",
                 "mods": { "type": "h3" }
@@ -221,25 +221,25 @@ let H3PositionInputs = [
                 "mods": { "type": "h2" }
             }
         ]`,
-        answer: [
-            "TEXT.INVALID_H3_POSITION",
-            "TEXT.INVALID_H3_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H3_POSITION',
+      'TEXT.INVALID_H3_POSITION'
+    ]
+  },
 
-    {
-        description: `Тест 4: Заголовок третьего уровня находится перед заголовком второго уровня на той же строке`,
-        json: `[
+  {
+    description: 'Тест 4: Заголовок третьего уровня находится перед заголовком второго уровня на той же строке',
+    json: `[
             { "block": "text", "mods": { "type": "h3" } }, { "block": "text", "mods": { "type": "h2" } }
         ]`,
-        answer: [
-            "TEXT.INVALID_H3_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H3_POSITION'
+    ]
+  },
 
-    {
-        description: `Тест 5: Два заголовка третьего уровня перед заголовком второго уровня на разных уровнях вложенности`,
-        json: `{
+  {
+    description: 'Тест 5: Два заголовка третьего уровня перед заголовком второго уровня на разных уровнях вложенности',
+    json: `{
                 "block": "product",
                 "content": [
                     { "block": "text", "mods": { "type": "h3" } },
@@ -255,9 +255,9 @@ let H3PositionInputs = [
                     }
                 ]
             }`,
-        answer: [
-            "TEXT.INVALID_H3_POSITION",
-            "TEXT.INVALID_H3_POSITION"
-        ]
-    },
+    answer: [
+      'TEXT.INVALID_H3_POSITION',
+      'TEXT.INVALID_H3_POSITION'
+    ]
+  }
 ];

@@ -1,7 +1,7 @@
-let proportionInputs = [
-    {
-        description: `Тест 1: рекламный блок offer занимает 2 колонки из 10`,
-        json: `{
+const proportionInputs = [
+  {
+    description: 'Тест 1: рекламный блок offer занимает 2 колонки из 10',
+    json: `{
             "block": "grid",
             "mods": {
                 "m-columns": "10"
@@ -33,12 +33,12 @@ let proportionInputs = [
                 }
             ]
         }`,
-        answer: "[]"
-    },
+    answer: '[]'
+  },
 
-    {
-        description: `Тест 2: рекламный блок commercial занимает 6 колонок из 12`,
-        json: `{
+  {
+    description: 'Тест 2: рекламный блок commercial занимает 6 колонок из 12',
+    json: `{
             "block": "grid",
             "mods": {
                 "m-columns": "12"
@@ -70,12 +70,12 @@ let proportionInputs = [
                 }
             ]
         }`,
-        answer: "[]"
-    },
+    answer: '[]'
+  },
 
-    {
-        description: `Тест 3: рекламный блок commercial занимает 6 колонок из 10`,
-        json: `{
+  {
+    description: 'Тест 3: рекламный блок commercial занимает 6 колонок из 10',
+    json: `{
             "block": "grid",
             "mods": {
                 "m-columns": "10"
@@ -107,14 +107,14 @@ let proportionInputs = [
                 }
             ]
         }`,
-        answer: [
-            "GRID.TOO_MUCH_MARKETING_BLOCKS"
-        ]
-    },
+    answer: [
+      'GRID.TOO_MUCH_MARKETING_BLOCKS'
+    ]
+  },
 
-    {
-        description: `Тест 4: рекламные блоки commercial и offer в сумме занимают 8 колонок из 12`,
-        json: `{
+  {
+    description: 'Тест 4: рекламные блоки commercial и offer в сумме занимают 8 колонок из 12',
+    json: `{
             "block": "grid",
             "mods": {
                 "m-columns": "12"
@@ -158,8 +158,9 @@ let proportionInputs = [
                 }
             ]
         }`,
-        answer: [
-            "GRID.TOO_MUCH_MARKETING_BLOCKS"
-        ]
-    },
+    answer: [
+      'GRID.TOO_MUCH_MARKETING_BLOCKS'
+    ]
+  }
 ]
+;
